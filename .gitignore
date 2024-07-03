@@ -8,6 +8,8 @@ quickdoc
 .quickdoc
 *lib/firebase_options.dart
 # Miscellaneous
+*.metadata
+.metadata
 *.class
 *.log
 *.pyc
