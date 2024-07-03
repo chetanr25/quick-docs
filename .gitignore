@@ -6,6 +6,7 @@
 quickdoc
 *quickdoc
 .quickdoc
+*lib/firebase_options.dart
 # Miscellaneous
 *.class
 *.log

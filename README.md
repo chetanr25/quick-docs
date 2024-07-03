@@ -2,8 +2,6 @@
 
 Quick Doc is your ultimate solution to effortlessly manage, search, and access all your PDF documents across multiple platforms. Whether you're a student, a working professional, or anyone who deals with numerous PDF files, Quick Doc ensures that you never lose track of your important documents again. Say goodbye to the hassle of sifting through thousands of files or struggling to remember file names. Quick Doc's intelligent search and seamless synchronization features bring you the PDFs you need in a flash!
 
-[Download APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
-
 ## Table of Contents
 
 - [Features](#features)
@@ -117,4 +115,3 @@ For detailed instructions, visit the [Firebase Firestore Documentation](https://
 5. **Local Storage Access**:
    - Quick Doc automatically loads PDFs from your device’s local storage, making them available for search and access without internet.
 
-You can try out Quick docs app [Download APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)

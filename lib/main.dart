@@ -25,32 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: FlexThemeData.light(
-        colors: const FlexSchemeColor(
-          primary: Color(0xff004881),
-          primaryContainer: Color(0xffd0e4ff),
-          secondary: Color(0xffac3306),
-          secondaryContainer: Color(0xffffdbcf),
-          tertiary: Color(0xff006875),
-          tertiaryContainer: Color(0xff95f0ff),
-          appBarColor: Color(0xffffdbcf),
-          error: Color(0xffb00020),
-        ),
-        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-        blendLevel: 7,
-        subThemesData: const FlexSubThemesData(
-          blendOnLevel: 10,
-          blendOnColors: false,
-          useTextTheme: true,
-          useM2StyleDividerInM3: true,
-          alignedDropdown: true,
-          useInputDecoratorThemeInDialogs: true,
-        ),
-        visualDensity: FlexColorScheme.comfortablePlatformDensity,
-        useMaterial3: true,
-        swapLegacyOnMaterial3: true,
-      ),
-      darkTheme: FlexThemeData.dark(
+      theme: FlexThemeData.dark(
         colors: const FlexSchemeColor(
           primary: Color(0xff9fc9ff),
           primaryContainer: Color(0xff00325b),

@@ -230,44 +230,47 @@ class _FirstPageState extends State<FirstPage> {
                               label: const Text('Search'),
                             ),
                           ),
-                          Container(
-                            constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height - 100,
-                              maxWidth: MediaQuery.of(context).size.width - 30,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LocalPdfView(),
-                                  ),
-                                );
-                              },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Colors.blue.withOpacity(0.5),
-                                    width: 1,
-                                  ),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.folder_outlined,
-                                      color: Colors.blue,
+                          if (Platform.isAndroid)
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height - 100,
+                                maxWidth:
+                                    MediaQuery.of(context).size.width - 30,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LocalPdfView(),
                                     ),
-                                    title: Text('All local files'),
+                                  );
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: Colors.blue.withOpacity(0.5),
+                                      width: 1,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      leading: Icon(
+                                        Icons.folder_outlined,
+                                        color: Colors.blue,
+                                      ),
+                                      title: Text('All local files'),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
                           Container(
                             constraints: BoxConstraints(
                               maxHeight:
