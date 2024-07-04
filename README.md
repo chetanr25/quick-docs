@@ -8,6 +8,7 @@ Quick Doc is your ultimate solution to effortlessly manage, search, and access a
 
 - [Features](#features)
 - [Benefits](#benefits)
+- [Demo Video](#demo-video)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -32,6 +33,18 @@ Quick Doc is your ultimate solution to effortlessly manage, search, and access a
 - **Offline Caching**: Downloaded PDFs are cached locally for faster access without repeated internet downloads.
 - **Multi-Platform Support**: Use Quick Doc on Android, iOS, and Web. Upload PDFs from your Android phone, manage them on your iOS device, and search or view them on the web.
 - **User Authentication**: Securely sign in using your email account.
+
+## Demo Video
+
+#### Seamlessly switch between devices and platforms with real-time synchronization. Search for PDFs using keywords, even with vague search terms.
+
+[![Cloud feature](demo/cloud_feature_quickdoc.png)](demo/cloud_feature_quickdoc.mov)
+
+#### Local storage access allows you to work with your PDFs even without an internet connection.
+
+##### Allows you to access PDFs stored locally on your device. Files are automatically detected and made available for search and access. All files which are downloaded from the internet or messaging apps are automatically detected and made available in the app.
+
+[![Local storage feature](demo/local_storage.png)](demo/android_local_quickdoc.mp4)
 
 ## Benefits
 
