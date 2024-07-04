@@ -183,6 +183,7 @@ class _SecondPageState extends State<SecondPage> {
   Future<void> deleteFile(String downloadUrl) async {
     try {
       Reference ref = FirebaseStorage.instance.refFromURL(downloadUrl);
+
       await ref.delete();
     } catch (e) {
       throw e; // Re-throw the exception to allow calling code to handle it.
@@ -387,16 +388,27 @@ class _SecondPageState extends State<SecondPage> {
                                                     ),
                                                   ),
                                                 );
-                                                FirebaseFirestore.instance
-                                                    .collection(email!)
-                                                    .doc(widget.uid)
-                                                    .update({
-                                                  'files':
-                                                      FieldValue.arrayRemove([
-                                                    snapshot.data['files']
-                                                        [index]
-                                                  ])
-                                                });
+
+                                                // FirebaseFirestore.instance
+                                                //     .collection(email!)
+                                                //     .doc(widget.uid)
+                                                //     .update({
+                                                //   'files':
+                                                //       FieldValue.arrayRemove([
+                                                //     snapshot.data['files']
+                                                //         [index]['name']
+                                                //   ])
+                                                // });
+                                                // FirebaseFirestore.instance
+                                                //     .collection('lemma')
+                                                //     .doc(email)
+                                                //     .update({
+                                                //   'files':
+                                                //       FieldValue.arrayRemove([
+                                                //     snapshot.data['files']
+                                                //         [index]
+                                                //   ])
+                                                // });
                                               },
                                               label: const Text(
                                                 'Confirm',

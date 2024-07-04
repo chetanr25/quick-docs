@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.hasData && snapshot.data != null) {
+            // return AuthScreen();
             return const FirstPage();
           }
           return const AuthScreen();
