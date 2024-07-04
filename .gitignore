@@ -9,7 +9,6 @@ quickdoc
 *lib/firebase_options.dart
 # Miscellaneous
 *.lib/firebase_options
-.lib/firebase_options
 lib/firebase_options
 *lib/firebase_options
 *.metadata
