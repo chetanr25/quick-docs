@@ -16,6 +16,7 @@ Quick Doc is your ultimate solution to effortlessly manage, search, and access a
     - [Firebase Storage](#firebase-storage)
     - [Firebase Firestore](#firebase-firestore)
 - [Usage](#usage)
+- [License](#license)
 
 ## Features
 
@@ -118,3 +119,7 @@ For detailed instructions, visit the [Firebase Firestore Documentation](https://
    - Quick Doc automatically loads PDFs from your device’s local storage, making them available for search and access without internet.
 
 You can try out Quick docs app [Download APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
