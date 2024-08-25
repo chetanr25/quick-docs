@@ -66,7 +66,7 @@ Quick Doc is your ultimate solution to effortlessly manage, search, and access a
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/chetanr250/quick_docs
+   git clone https://github.com/chetanr25/quick_docs
    cd quick_doc
    ```
 
