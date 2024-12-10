@@ -6,7 +6,8 @@
 
 ## 📥 **Download APK**
 
-[Download Quick Doc](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
+[<img 
+src="https://github.com/user-attachments/assets/912d765e-8524-4810-b4d2-3e8b314d1baf"  width="350" />](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
 
 ---
 
