@@ -1,137 +1,137 @@
-# Quick Doc
+# 📂 **Quick Doc: Intelligent Document Solution**  
 
-Quick Doc is your ultimate solution to effortlessly manage, search, and access all your PDF documents across multiple platforms. Whether you're a student, a working professional, or anyone who deals with numerous PDF files, Quick Doc ensures that you never lose track of your important documents again. Say goodbye to the hassle of sifting through thousands of files or struggling to remember file names. Quick Doc's intelligent search and seamless synchronization features bring you the PDFs you need in a flash!
+**Quick Doc** is an intelligent PDF manager built for seamless access, search, and organization of documents. Designed for students, professionals, and anyone juggling multiple PDFs, Quick Doc is your all-in-one solution for managing files across devices.  
 
-[Download APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
+---
 
-## Table of Contents
+## 📥 **Download APK**
 
-- [Features](#features)
-- [Benefits](#benefits)
-- [Demo Video](#demo-video)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Setting up Firebase](#setting-up-firebase)
-    - [Firebase Authentication](#firebase-authentication)
-    - [Firebase Storage](#firebase-storage)
-    - [Firebase Firestore](#firebase-firestore)
-- [Usage](#usage)
-- [License](#license)
+[Download Quick Doc](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
 
-## Features
+---
 
-- **Cloud and Local Storage**: Upload PDFs to the cloud for secure storage and access from anywhere, or access PDFs directly from your device's local storage.
-- **Advanced Search**: Search for PDFs using keywords, even if you don't remember the exact name. The app uses tokenization and lemmatization to identify similar words and provide accurate search results.
-- **Cross-Platform Compatibility**: Access and manage your PDFs seamlessly across Android, iOS, and Web platforms. Changes made on one device reflect instantly on others.
-- **Real-Time Sync**: Changes made on one device reflect instantly on all other devices connected to your account.
-- **Offline Functionality**: Search and access locally stored PDFs without an internet connection.
-- **Automatic Import**: Quick Doc automatically detects PDFs downloaded from messaging apps or the internet, making them readily available in the app.
-- **Color-Coded Display**: Easily differentiate between cloud-stored and locally stored PDFs with clear color coding.
-- **User-Friendly Interface**: Manage your PDFs with ease through intuitive features like creating folders, renaming files, rearranging documents, and deleting unwanted files.
-- **Integrated PDF Viewer**: View your PDFs directly within the app or choose to open them with your preferred external PDF viewer.
-- **Offline Caching**: Downloaded PDFs are cached locally for faster access without repeated internet downloads.
-- **Multi-Platform Support**: Use Quick Doc on Android, iOS, and Web. Upload PDFs from your Android phone, manage them on your iOS device, and search or view them on the web.
-- **User Authentication**: Securely sign in using your email account.
+## 📜 **Table of Contents**
 
-## Demo Video
+1. [✨ Features](#-features)  
+2. [🎯 Benefits](#-benefits)  
+3. [🎥 Demo Videos](#-demo-videos)  
+4. [🚀 Getting Started](#-getting-started)  
+   - [🔑 Prerequisites](#-prerequisites)  
+   - [📦 Installation](#-installation)  
+   - [🔧 Firebase Setup](#-firebase-setup)  
+5. [📄 License](#-license)  
 
-#### Seamlessly switch between devices and platforms with real-time synchronization. Search for PDFs using keywords, even with vague search terms.
-- Please [click](demo/cloud_feature_quickdoc.mov) on the image to view video demonstration
-[![Cloud feature](demo/cloud_feature_quickdoc.png)](demo/cloud_feature_quickdoc.mov)
+---
 
-#### Local storage access allows you to work with your PDFs even without an internet connection.
-##### Allows you to access PDFs stored locally on your device. Files are automatically detected and made available for search and access. All files which are downloaded from the internet or messaging apps are automatically detected and made available in the app.
-- Please [click](demo/android_local_quickdoc.mp4) on the image to view video demonstration
-[![Local storage feature](demo/local_storage.png)](demo/android_local_quickdoc.mp4)
+## ✨ **Features**  
 
-## Benefits
+### **🔍 Smart Search**  
+- **Keyword Search**: Quickly locate PDFs with keywords—even vague terms.  
+- **Advanced NLP**: Leverages **tokenization** and **lemmatization** for high-accuracy results.  
 
-- **Efficiency**: Quickly find the PDFs you need without wasting time searching through folders, even with vague search terms.
-- **Reduce Frustration**: Eliminate the hassle of searching through countless files.
-- **Convenience**: Seamlessly switch between devices and platforms, with real-time synchronization.
-- **Accessibility**: Access your PDFs anytime, anywhere, whether stored locally or in the cloud.
-- **Reliability**: Rest assured knowing your documents are securely stored and easily retrievable.
-- **Offline Availability**: Work with your PDFs even without an internet connection.
+### **🌐 Cloud and Local Storage**  
+- **Cloud Storage**: Securely upload and sync across all devices.  
+- **Local Access**: Manage offline PDFs without an internet connection.  
 
-## Getting Started
+### **⚡ Real-Time Sync**  
+- **Instant Updates**: Edits reflect on all connected devices in real time leveraging the use of Firebase firestore.  
+- **Cross-Platform**: Works seamlessly on Android, iOS, and web.  
 
-### Prerequisites
+### **📂 Easy Organization**  
+- **File Management**: Create folders, rename files, and rearrange documents.  
+- **Color-Coded Files**: Distinguish between cloud and local storage visually.  
 
-- Flutter SDK
-- Firebase account
-- Dart
+### **📤 Automatic Import**  
+- **Auto-Detection**: Detects PDFs downloaded from messaging apps or browsers.  
+- **Offline Caching**: Cached PDFs for fast access without re-downloading.  
 
-### Installation
+### **🔐 Secure Authentication**  
+- **Email Login**: Secure sign-in with Firebase Authentication.  
 
-1. **Clone the repository**:
+### **📄 Integrated PDF Viewer**  
+- **In-App Viewing**: Open PDFs without external apps.  
+- **External Viewer**: Supports third-party PDF viewers for flexibility.  
+
+---
+
+## 🎯 **Benefits**  
+
+- **Effortless Search**: Save time with precise PDF searches.  
+- **Device Synchronization**: Work seamlessly across all platforms.  
+- **Offline First**: Access files without an internet connection.  
+- **Secure**: Safeguard your documents with encrypted cloud storage.  
+
+---
+
+
+
+
+
+
+
+
+
+## 🎥 **Demo Videos**  
+
+### **Cloud Storage and Real-Time Sync**  
+📤 **Access PDFs from any device with instant synchronization.**  
+
+https://github.com/user-attachments/assets/76dd9e4c-db7e-46fc-b85c-56ce02367332
+
+### **Local Storage Access**  
+📂 **Work offline with auto-detected PDFs from local storage.**  
+
+<p align="center" width="220">
+  
+https://github.com/user-attachments/assets/7ebe8756-3581-44f3-9663-284272d50485 
+
+</p>
+
+---
+
+## 🚀 **Getting Started**  
+
+### 🔑 **Prerequisites**  
+- **Flutter SDK**  
+- **Firebase Account**  
+- **Dart Programming Language**  
+
+### 📦 **Installation**  
+1. Clone the repository:  
    ```bash
    git clone https://github.com/chetanr25/quick_docs
    cd quick_doc
-   ```
-
-### Setting up Firebase
-
-To set up Firebase for Quick Doc, you'll need to configure Firebase Authentication, Firebase Storage, and Firebase Firestore. Follow the steps below for each service:
-
-#### Firebase Authentication
-
-1. Go to the [Firebase Console](https://console.firebase.google.com/).
-2. Create a new project (or select an existing one).
-3. Navigate to **Authentication** in the left menu.
-4. Click **Get Started** and enable **Email/Password** sign-in method.
-
-For more detailed instructions, visit the [Firebase Authentication Documentation](https://firebase.google.com/docs/auth).
-
-#### Firebase Storage
-
-1. In the Firebase Console, navigate to **Storage** in the left menu.
-2. Click **Get Started** and select your default storage location.
-3. Use the default security rules for development, and adjust them as needed for production.
-
-For more details, check the [Firebase Storage Documentation](https://firebase.google.com/docs/storage).
-
-#### Firebase Firestore
-
-1. In the Firebase Console, navigate to **Firestore Database** in the left menu.
-2. Click **Create Database** and select **Start in production mode** or **Start in test mode** based on your requirements.
-3. Choose your database location and complete the setup.
-
-For detailed instructions, visit the [Firebase Firestore Documentation](https://firebase.google.com/docs/firestore).
-
-4. **Add Firebase configuration files**:
-
-   - Download the `google-services.json` file for Android and `GoogleService-Info.plist` file for iOS from the Firebase Console.
-   - Place these files in the appropriate directories in your Flutter project.
-
-5. **Run the app**:
+   ```  
+2. Install dependencies:  
    ```bash
-   flutter run
-   ```
+   flutter pub get
+   ```  
+3. Set up Firebase (instructions below).  
 
-## Usage
+---
 
-1. **Authentication**:
+### 🔧 **Firebase Setup**  
 
-   - Sign in using your email account.
+#### **Firebase Authentication**  
+- Navigate to **Firebase Console** → **Authentication** → Enable **Email/Password Sign-In**.  
 
-2. **Upload PDFs**:
+#### **Firebase Storage**  
+- Navigate to **Storage** → Configure a storage bucket and set appropriate rules.  
 
-   - Create folders and upload PDFs. Text from the PDFs will be processed for easy searching.
+#### **Firebase Firestore**  
+- Navigate to **Firestore Database** → Create a new database in **production/test mode**.  
 
-3. **Search PDFs**:
+#### **Add Config Files**  
+1. Download `google-services.json` (for Android) and `GoogleService-Info.plist` (for iOS).  
+2. Place them in their respective directories in the project.  
 
-   - Use the search bar to find PDFs using keywords. The app supports searching with exact words and similar words also.
+---
 
-4. **Manage PDFs**:
+## 📄 **License**  
 
-   - Edit, delete, rename, and reorder files and folders. Changes reflect instantly across all devices.
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for more details.  
 
-5. **Local Storage Access**:
-   - Quick Doc automatically loads PDFs from your device’s local storage, making them available for search and access without internet.
+---
 
-You can try out Quick docs app [Download APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+**Quick Doc** is redefining how you manage PDFs. Download now and experience smarter, faster, and more efficient document management! 🚀  
