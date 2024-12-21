@@ -19,8 +19,9 @@ src="https://github.com/user-attachments/assets/912d765e-8524-4810-b4d2-3e8b314d
 4. [🚀 Getting Started](#-getting-started)  
    - [🔑 Prerequisites](#-prerequisites)  
    - [📦 Installation](#-installation)  
-   - [🔧 Firebase Setup](#-firebase-setup)  
-5. [📄 License](#-license)  
+   - [🔧 Firebase Setup](#-firebase-setup)
+5. [How to Contribute](#-how-to-contribute)
+6. [📄 License](#-license)  
 
 ---
 
@@ -127,6 +128,13 @@ https://github.com/user-attachments/assets/7ebe8756-3581-44f3-9663-284272d50485
 2. Place them in their respective directories in the project.  
 
 ---
+
+## 💻 How to Contribute
+
+We welcome contributions! If you'd like to contribute, please refer to our [Contributing Guide](CONTRIBUTING.md) for detailed instructions on how to report bugs, request features, and submit code.
+
+Thank you for your interest in contributing!
+
 
 ## 📄 **License**  
 
