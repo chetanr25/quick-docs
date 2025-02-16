@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:pdf_made_easy/screens/pdf/pdf_viewer.dart';
+import 'package:quick_docs/screens/pdf/pdf_viewer.dart';
 import 'package:path/path.dart' as p;
 
 class StreamAllFiles extends StatefulWidget {

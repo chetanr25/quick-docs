@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:pdf_text/pdf_text.dart';
+import 'package:quick_docs/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tokenizer/tokenizer.dart';
 // ignore: depend_on_referenced_packages
@@ -30,13 +30,10 @@ class _ProcessingScreenState extends State<ProcessingScreen>
   SharedPreferences? prefs;
   bool isProcessing = true;
   Future<Set<String>> extractText(path) async {
-    PDFDoc doc = await PDFDoc.fromPath(path);
+    Map<String, dynamic> result = await extractTextFromPdf(path);
     String tempText = '';
-    try {
-      tempText = await doc.text;
-      tempText = tempText..toLowerCase();
-    } catch (e) {
-      //
+    if (result['status'] == 'success') {
+      tempText = result['processed_text'] ?? '';
     }
     return tokenise(tempText, path);
   }

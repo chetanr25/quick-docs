@@ -3,10 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pdf_made_easy/screens/auth/auth_screen.dart';
-import 'package:pdf_made_easy/firebase_options.dart';
-import 'package:pdf_made_easy/screens/home/first_page.dart';
+import 'package:quick_docs/screens/auth/auth_screen.dart';
+import 'package:quick_docs/firebase_options.dart';
+import 'package:quick_docs/screens/home/first_page.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:chaquopy/chaquopy.dart';
 
 void main() async {
   await GetStorage.init();
@@ -14,6 +15,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Initialize Python
+  try {
+    await Chaquopy.executeCode('print("Python is ready")');
+  } catch (e) {
+    print("Failed to initialize Python: $e");
+  }
+
   runApp(const MyApp());
 }
 
@@ -71,5 +80,32 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+Future<Map<String, dynamic>> extractTextFromPdf(String pdfPath) async {
+  try {
+    final result = await Chaquopy.executeCode('''
+from pdf_extractor import extract_text_from_pdf, process_text
+import os
+
+if not os.path.exists("$pdfPath"):
+    result = {"status": "error", "message": "File not found"}
+else:
+    result = extract_text_from_pdf("$pdfPath")
+    if result["status"] == "success":
+        processed = process_text(result["text"])
+        if processed["status"] == "success":
+            result["processed_text"] = processed["processed_text"]
+result
+''');
+
+    if (result is Map) {
+      return result as Map<String, dynamic>;
+    } else {
+      return {"status": "error", "message": "Invalid response format"};
+    }
+  } catch (e) {
+    return {"status": "error", "message": e.toString()};
   }
 }

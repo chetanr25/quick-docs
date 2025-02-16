@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pdf_made_easy/screens/auth/auth2.dart';
+import 'package:quick_docs/screens/auth/auth2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void navigateWithFadeAnimation(BuildContext context, Widget page) {

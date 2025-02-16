@@ -68,7 +68,6 @@ ios/Flutter/app.flx
 ios/Flutter/flutter_export_environment.sh
 assets/icons/
 
-
 # Symbolication related
 app.*.symbols
 
@@ -79,3 +78,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# FVM Version Cache
+.fvm/
+android123/

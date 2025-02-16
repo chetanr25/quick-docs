@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pdf_made_easy/file_handling/read_files.dart';
-import 'package:pdf_made_easy/screens/home/local_pdf_view.dart';
-import 'package:pdf_made_easy/screens/search_screen.dart';
-import 'package:pdf_made_easy/screens/home/second_page.dart';
+import 'package:quick_docs/file_handling/read_files.dart';
+import 'package:quick_docs/screens/home/local_pdf_view.dart';
+import 'package:quick_docs/screens/search_screen.dart';
+import 'package:quick_docs/screens/home/second_page.dart';
 import 'package:uuid/uuid.dart';
-import 'package:pdf_made_easy/AlertDialogUtil/edit_folder_name_dialoguebox.dart';
+import 'package:quick_docs/AlertDialogUtil/edit_folder_name_dialoguebox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstPage extends StatefulWidget {

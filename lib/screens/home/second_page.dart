@@ -8,13 +8,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lemmatizerx/lemmatizerx.dart';
-import 'package:pdf_made_easy/screens/pdf/pdf_viewer.dart';
-import 'package:pdf_text/pdf_text.dart';
+import 'package:quick_docs/screens/pdf/pdf_viewer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stemmer/stemmer.dart';
 import 'package:tokenizer/tokenizer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:quick_docs/main.dart';
 
 class SecondPage extends StatefulWidget {
   const SecondPage({Key? key, required this.uid, required this.folder})
@@ -138,10 +138,12 @@ class _SecondPageState extends State<SecondPage> {
   }
 
   Future<Set<String>> extractText(path) async {
-    PDFDoc doc = await PDFDoc.fromPath(path);
-    String tempText = await doc.text;
-    text = tempText;
-    return tokenise(text);
+    Map<String, dynamic> result = await extractTextFromPdf(path);
+    String tempText = '';
+    if (result['status'] == 'success') {
+      tempText = result['processed_text'] ?? '';
+    }
+    return tokenise(tempText);
   }
 
   tokenReturn(c, tokenizer) async {
