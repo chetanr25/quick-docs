@@ -114,18 +114,25 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: isLoading
           ? const LoadingWidget()
-          : Column(
-              children: [
-                // const WelcomeSection(),
-                Expanded(
-                  child: FoldersListWidget(
-                    folders: folders,
-                    onOpenDocuments: _openDocumentsList,
-                    onDeleteFolder: _deleteFolder,
-                    onCreateFolder: _createFolder,
+          : RefreshIndicator(
+              onRefresh: () async {
+                await Future.delayed(const Duration(
+                    milliseconds: 300)); // Small delay for better UX
+                loadData();
+              },
+              child: Column(
+                children: [
+                  // const WelcomeSection(),
+                  Expanded(
+                    child: FoldersListWidget(
+                      folders: folders,
+                      onOpenDocuments: _openDocumentsList,
+                      onDeleteFolder: _deleteFolder,
+                      onCreateFolder: _createFolder,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
