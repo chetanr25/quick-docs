@@ -35,11 +35,12 @@ class NLPService:
             method = "basic"
             
             token_list = list(tokens)
+            s_token_list = set(tokens)
             
             return TokenizationResult(
-                tokens=token_list,
+                tokens=s_token_list,
                 token_count=len(token_list),
-                unique_tokens=len(set(token_list)),
+                unique_tokens=len(s_token_list),
                 method=method
             )
             
