@@ -49,8 +49,8 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.upload_file),
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              final uploadedDocument = await Navigator.push<DocumentModel>(
                 context,
                 MaterialPageRoute(
                   builder: (context) => FileUploadScreen(
@@ -60,6 +60,13 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
                   ),
                 ),
               );
+
+              // Add the uploaded document to the local list if one was returned
+              if (uploadedDocument != null) {
+                setState(() {
+                  _documents.add(uploadedDocument);
+                });
+              }
             },
           ),
         ],

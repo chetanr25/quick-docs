@@ -63,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _navigateToUpload() {
-    Navigator.push(
+  Future<void> _navigateToUpload() async {
+    final uploadedDocument = await Navigator.push<DocumentModel>(
       context,
       MaterialPageRoute(
         builder: (context) => FileUploadScreen(
@@ -74,6 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+
+    // Add the uploaded document to the local list if one was returned
+    if (uploadedDocument != null) {
+      setState(() {
+        documents.add(uploadedDocument);
+      });
+    }
   }
 
   void _openDocumentsList(FolderModel? folder) {

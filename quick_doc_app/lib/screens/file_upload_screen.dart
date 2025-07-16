@@ -288,7 +288,8 @@ class _FileUploadScreenState extends State<FileUploadScreen> {
                           Expanded(
                             child: ElevatedButton.icon(
                               onPressed: () {
-                                Navigator.pop(context);
+                                // Return the uploaded document when Done is clicked
+                                Navigator.pop(context, uploadResult);
                               },
                               icon: const Icon(Icons.done, color: Colors.white),
                               label: const Text('Done'),
