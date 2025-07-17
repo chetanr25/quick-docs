@@ -36,6 +36,10 @@ def create_application() -> FastAPI:
     @app.get("/")
     async def root():
         return {"message": "Quick Docs API", "version": settings.VERSION}
+    
+    @app.get("/health")
+    async def health_check():
+        return JSONResponse(content={"status": "ok"}, status_code=200)
 
     return app
 

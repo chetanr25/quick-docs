@@ -21,6 +21,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final FileProcessingService _fileService = FileProcessingService();
   final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
 
   List<DocumentModel> searchResults = [];
   bool isSearching = false;
@@ -32,40 +33,28 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
+  initState() {
+    super.initState();
+    // Initialize search results with initial documents
+    _searchFocusNode.requestFocus();
+    // searchResults = widget.initialDocuments;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   begin: Alignment.topLeft,
-            //   end: Alignment.bottomRight,
-            //   colors: [
-            //     Colors.white.withOpacity(0.2),
-            //     Colors.white.withOpacity(0.6),
-            //     // Color(0xFF667eea),
-            //     // Color(0xFF764ba2),
-            //     // Color(0xFFf093fb),
-            //     // Color(0xFFf5576c),
-            //   ],
-            //   stops: [0.0, 0.3, 0.7, 1.0],
-            // ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildGlassmorphicAppBar(),
+
+            _buildSearchSection(),
+
+            // Search results section
+            Expanded(
+              child: _buildSearchResults(),
             ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Custom App Bar with glassmorphism
-              _buildGlassmorphicAppBar(),
-
-              // Search input section with enhanced design
-              _buildSearchSection(),
-
-              // Search results section
-              Expanded(
-                child: _buildSearchResults(),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -145,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _buildSearchSection() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
         child: BackdropFilter(
@@ -187,6 +176,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         child: TextField(
                           controller: _searchController,
+                          focusNode: _searchFocusNode,
                           style: const TextStyle(
                             fontSize: 16,
                             color: Color(0xFF2D3748),
@@ -492,7 +482,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ],
                               ),
                             ),
-                            _buildActionButtons(document, index),
+                            // _buildActionButtons(document, index),
                           ],
                         ),
                         if (document.extractedText.isNotEmpty) ...[
@@ -789,8 +779,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           const SizedBox(height: 12),
                           _buildTipItem(
                               '🎯', 'Use specific keywords for better results'),
-                          const SizedBox(height: 12),
-                          _buildTipItem('🔍', 'Search is case-insensitive'),
+                          // const SizedBox(height: 12),
+                          // _buildTipItem('🔍', 'Search is case-insensitive'),
                         ],
                       ),
                     ),
@@ -827,125 +817,127 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _buildNoResultsState() {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.grey[400]!,
-                    Colors.grey[600]!,
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.grey[400]!,
+                      Colors.grey[600]!,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(60),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 0,
+                      blurRadius: 30,
+                      offset: const Offset(0, 10),
+                    ),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(60),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 0,
-                    blurRadius: 30,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
+                child: const Icon(
+                  Icons.search_off,
+                  size: 60,
+                  color: Colors.white,
+                ),
               ),
-              child: const Icon(
-                Icons.search_off,
-                size: 60,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 32),
-            Text(
-              'No Results Found',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(0, 2),
-                    blurRadius: 4,
-                    color: Colors.black.withOpacity(0.3),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Text(
-                'No documents match your search query "${_searchController.text}"',
+              const SizedBox(height: 32),
+              Text(
+                'No Results Found',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withOpacity(0.9),
-                  height: 1.5,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(0, 2),
+                      blurRadius: 4,
+                      color: Colors.black.withOpacity(0.3),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: 40),
-            Container(
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFf093fb), Color(0xFFf5576c)],
-                ),
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFf093fb).withOpacity(0.4),
-                    spreadRadius: 0,
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  'No documents match your search query "${_searchController.text}"',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white.withOpacity(0.9),
+                    height: 1.5,
                   ),
-                ],
+                  textAlign: TextAlign.center,
+                ),
               ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    _searchController.clear();
-                    setState(() {
-                      hasSearched = false;
-                      searchResults.clear();
-                    });
-                  },
+              const SizedBox(height: 40),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFFf093fb), Color(0xFFf5576c)],
+                  ),
                   borderRadius: BorderRadius.circular(25),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 16),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.refresh,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        SizedBox(width: 12),
-                        Text(
-                          'New Search',
-                          style: TextStyle(
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFf093fb).withOpacity(0.4),
+                      spreadRadius: 0,
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _searchController.clear();
+                      setState(() {
+                        hasSearched = false;
+                        searchResults.clear();
+                      });
+                    },
+                    borderRadius: BorderRadius.circular(25),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 16),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.refresh,
                             color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                            size: 24,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 12),
+                          Text(
+                            'New Search',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

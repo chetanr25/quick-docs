@@ -3,33 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_docs/screens/auth_screen.dart';
 import 'package:quick_docs/services/firestore_service.dart';
+import 'package:quick_docs/services/api_service.dart';
 import '../models/folder_model.dart';
 import '../core/constants.dart';
 import '../utils/snackbar_util.dart';
+import '../core/exceptions.dart';
 
 class HomeService {
   static final HomeService _instance = HomeService._internal();
   factory HomeService() => _instance;
   HomeService._internal();
 
+  final ApiService _apiService = ApiService();
+
   Future<bool> confirmFolderDeletion(
       BuildContext context, FolderModel folder) async {
-    // try {
     final data = await FirebaseConstants.firestore;
     final allDocument = data['documents'];
     final documents = data['documents'].where((doc) {
       return doc['folderId'] == folder.id;
     }).toList();
-    print(documents);
 
     if (documents.isEmpty) {
-      print('hehee');
       final confirm = await HomeService().deleteFolder(context, folder);
       FirestoreService.deleteFolder(folder);
       return confirm;
     }
-    // List<String> fileNames = documents.map((doc) => doc['filename']).toList();
-    // print(fileNames);
 
     bool? result = await showDialog<bool>(
       context: context,
@@ -91,22 +90,34 @@ class HomeService {
     );
 
     if (result == true) {
-      // Remove documents from allDocument array
-      allDocument.removeWhere((doc) => doc['folderId'] == folder.id);
-      await FirebaseConstants.firebaseUserDoc.update({
-        'documents': allDocument,
-      });
-      FirestoreService.deleteFolder(folder);
-      // for (final doc in documents) {
-      //   // await FirebaseConstants.firebaseUserDoc
-      // }
+      try {
+        final fileIds =
+            documents.map<String>((doc) => doc['fileId'] as String).toList();
+
+        if (fileIds.isNotEmpty) {
+          await _apiService.deleteMultipleFiles(fileIds);
+        }
+
+        allDocument.removeWhere((doc) => doc['folderId'] == folder.id);
+
+        // _apiService.deleteFile(folder.id);
+
+        await FirebaseConstants.firebaseUserDoc.update({
+          'documents': allDocument,
+        });
+
+        FirestoreService.deleteFolder(folder);
+      } catch (e) {
+        print('Error deleting files from storage: $e');
+        allDocument.removeWhere((doc) => doc['folderId'] == folder.id);
+        await FirebaseConstants.firebaseUserDoc.update({
+          'documents': allDocument,
+        });
+        FirestoreService.deleteFolder(folder);
+      }
     }
 
     return result ?? false;
-    // } catch (e) {
-    //   print('Error checking folder contents: $e');
-    //   return false;
-    // }
   }
 
   /// Handles user sign out process
@@ -132,40 +143,10 @@ class HomeService {
 
   /// Shows create folder dialog and handles folder creation
   Future<FolderModel?> createFolder(BuildContext context) async {
-    final controller = TextEditingController();
-
     try {
       final result = await showDialog<String>(
         context: context,
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: const Text(
-            'Create New Folder',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          content: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: 'Enter folder name',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            autofocus: true,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.pop(context, controller.text.trim()),
-              child: const Text('Create'),
-            ),
-          ],
-        ),
+        builder: (context) => const _CreateFolderDialog(),
       );
 
       if (result != null && result.isNotEmpty) {
@@ -194,8 +175,6 @@ class HomeService {
         );
       }
       return null;
-    } finally {
-      controller.dispose();
     }
   }
 
@@ -288,6 +267,50 @@ class HomeService {
     }
   }
 
+  /// Deletes a single document from both storage and Firestore
+  Future<bool> deleteDocument(BuildContext context, dynamic document) async {
+    try {
+      // First delete from storage database
+      await _apiService.deleteFile(document.fileId);
+
+      // Then remove from Firestore
+      final data = await FirebaseConstants.firestore;
+      final allDocuments = List<Map<String, dynamic>>.from(data['documents']);
+      allDocuments.removeWhere((doc) => doc['fileId'] == document.fileId);
+
+      await FirebaseConstants.firebaseUserDoc.update({
+        'documents': allDocuments,
+      });
+
+      if (context.mounted) {
+        SnackBarUtil.showSuccessSnackBar(
+          context: context,
+          message: 'Document deleted successfully',
+        );
+      }
+
+      return true;
+    } catch (e) {
+      if (context.mounted) {
+        String errorMessage = 'Error deleting document';
+        if (e is NetworkException) {
+          errorMessage =
+              'No internet connection - unable to delete file from storage';
+        } else if (e is FileUploadException) {
+          errorMessage = e.message;
+        } else {
+          errorMessage = 'Unexpected error: ${e.toString()}';
+        }
+
+        SnackBarUtil.showErrorSnackBar(
+          context: context,
+          message: errorMessage,
+        );
+      }
+      return false;
+    }
+  }
+
   /// Loads user data and folders from Firestore
   Future<Map<String, dynamic>> loadUserData() async {
     try {
@@ -348,146 +371,466 @@ class HomeService {
     }
   }
 
-  /// Builds the folder selection dialog with glassmorphic design
+  /// Builds the folder selection dialog with enhanced modern design
   Widget _buildFolderSelectionDialog(
       BuildContext context, List<FolderModel> folders) {
-    return AlertDialog(
+    return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(28),
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.95),
-      title: Row(
-        children: [
-          Icon(
-            Icons.drive_file_move,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          const SizedBox(width: 12),
-          const Text(
-            'Move to Folder',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      content: SizedBox(
+      backgroundColor: Colors.transparent,
+      child: Container(
         width: double.maxFinite,
-        height: 300,
-        child: Column(
-          children: [
-            // "No Folder" option
-            _buildFolderOption(
-              context,
-              icon: Icons.folder_off,
-              title: 'No Folder',
-              subtitle: 'Move to root directory',
-              onTap: () => Navigator.pop(
-                context,
-                FolderModel.createNew(name: '').copyWith(id: ''),
-              ),
+        constraints: const BoxConstraints(maxHeight: 500, maxWidth: 400),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
+              Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
             ),
-            const Divider(),
-            // Available folders
-            Expanded(
-              child: folders.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.folder_outlined,
-                            size: 48,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.5),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'No folders available',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.7),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: folders.length,
-                      itemBuilder: (context, index) {
-                        final folder = folders[index];
-                        return _buildFolderOption(
-                          context,
-                          icon: Icons.folder,
-                          title: folder.name,
-                          subtitle: 'Move to this folder',
-                          onTap: () => Navigator.pop(context, folder),
-                        );
-                      },
-                    ),
+            BoxShadow(
+              color:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
+              blurRadius: 40,
+              offset: const Offset(0, 16),
             ),
           ],
         ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Enhanced Header
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Theme.of(context)
+                          .colorScheme
+                          .primaryContainer
+                          .withValues(alpha: 0.3),
+                      Theme.of(context)
+                          .colorScheme
+                          .secondaryContainer
+                          .withValues(alpha: 0.2),
+                    ],
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        Icons.drive_file_move_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Move Document',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Choose destination folder',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.7),
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Content Area
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // "No Folder" option with enhanced design
+                      _buildEnhancedFolderOption(
+                        context,
+                        icon: Icons.folder_off_rounded,
+                        title: 'No Folder',
+                        subtitle: 'Move to All Documents',
+                        isSpecial: true,
+                        onTap: () => Navigator.pop(
+                          context,
+                          FolderModel.createNew(name: '').copyWith(id: ''),
+                        ),
+                      ),
+
+                      if (folders.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        Container(
+                          width: double.infinity,
+                          height: 1,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.transparent,
+                                Theme.of(context)
+                                    .colorScheme
+                                    .outline
+                                    .withValues(alpha: 0.3),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+
+                      // Available folders
+                      Flexible(
+                        child: folders.isEmpty
+                            ? _buildEmptyState(context)
+                            : ListView.separated(
+                                shrinkWrap: true,
+                                itemCount: folders.length,
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 8),
+                                itemBuilder: (context, index) {
+                                  final folder = folders[index];
+                                  return AnimatedContainer(
+                                    duration: Duration(
+                                        milliseconds: 200 + (index * 50)),
+                                    curve: Curves.easeOutBack,
+                                    child: _buildEnhancedFolderOption(
+                                      context,
+                                      icon: Icons.folder_rounded,
+                                      title: folder.name,
+                                      subtitle: 'Tap to move here',
+                                      onTap: () =>
+                                          Navigator.pop(context, folder),
+                                    ),
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Enhanced Footer
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.8),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Builds enhanced individual folder option in the selection dialog
+  Widget _buildEnhancedFolderOption(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+    bool isSpecial = false,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isSpecial
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
+              : Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+          width: 1,
+        ),
+        gradient: isSpecial
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withValues(alpha: 0.1),
+                  Theme.of(context)
+                      .colorScheme
+                      .secondaryContainer
+                      .withValues(alpha: 0.05),
+                ],
+              )
+            : null,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: isSpecial
+                        ? Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withValues(alpha: 0.15)
+                        : Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest
+                            .withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: isSpecial
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: isSpecial
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.onSurface,
+                                ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.6),
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.4),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Builds empty state widget for when no folders are available
+  Widget _buildEmptyState(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .colorScheme
+                    .surfaceContainerHighest
+                    .withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(
+                Icons.folder_open_rounded,
+                size: 48,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.5),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'No folders available',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.7),
+                  ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Create a folder first to organize your documents',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.5),
+                  ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Stateful dialog widget for creating folders with proper controller lifecycle management
+class _CreateFolderDialog extends StatefulWidget {
+  const _CreateFolderDialog();
+
+  @override
+  State<_CreateFolderDialog> createState() => _CreateFolderDialogState();
+}
+
+class _CreateFolderDialogState extends State<_CreateFolderDialog> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _submitFolder() {
+    final text = _controller.text.trim();
+    if (text.isNotEmpty) {
+      Navigator.pop(context, text);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      title: const Text(
+        'Create New Folder',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      content: TextField(
+        controller: _controller,
+        keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          hintText: 'Enter folder name',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        autofocus: true,
+        onSubmitted: (value) {
+          if (value.trim().isNotEmpty) {
+            Navigator.pop(context, value.trim());
+          }
+        },
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
+        FilledButton(
+          onPressed: _submitFolder,
+          child: const Text('Create'),
+        ),
       ],
-    );
-  }
-
-  /// Builds individual folder option in the selection dialog
-  Widget _buildFolderOption(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color:
-                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            icon,
-            color: Theme.of(context).colorScheme.primary,
-            size: 20,
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-          ),
-        ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-        ),
-        onTap: onTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
     );
   }
 }

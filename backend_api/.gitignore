@@ -165,3 +165,5 @@ logs/
 *.pid
 *.md
 **/*.md
+
+.env
