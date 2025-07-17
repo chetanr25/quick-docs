@@ -6,7 +6,6 @@ import 'package:quick_docs/models/folder_model.dart';
 import 'package:quick_docs/screens/file_upload_screen.dart';
 import 'package:quick_docs/services/file_processing_service.dart';
 import 'package:quick_docs/services/home_service.dart';
-import 'package:quick_docs/utils/snackbar_util.dart';
 import 'package:quick_docs/widgets/document_card.dart';
 
 class DocumentsListScreen extends StatefulWidget {
@@ -141,24 +140,11 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
     );
 
     if (confirmed == true) {
-      try {
+      final success = await _homeService.deleteDocument(context, document);
+      if (success) {
         setState(() {
           _documents.removeWhere((d) => d.fileId == document.fileId);
         });
-
-        if (mounted) {
-          SnackBarUtil.showSuccessSnackBar(
-            context: context,
-            message: 'Document deleted successfully',
-          );
-        }
-      } catch (e) {
-        if (mounted) {
-          SnackBarUtil.showErrorSnackBar(
-            context: context,
-            message: 'Error deleting document: ${e.toString()}',
-          );
-        }
       }
     }
   }

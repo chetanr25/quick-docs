@@ -4,6 +4,48 @@ import 'package:flutter/material.dart';
 import 'package:quick_docs/models/document_model.dart';
 import 'package:uuid/uuid.dart';
 
+enum FolderIcon {
+  folder,
+  work,
+  person,
+  home,
+  school,
+  favorite,
+  star,
+  settings,
+  document,
+  note
+}
+
+extension FolderIconExtension on FolderIcon {
+  String get name => toString().split('.').last;
+
+  IconData get icon {
+    switch (this) {
+      case FolderIcon.folder:
+        return Icons.folder;
+      case FolderIcon.work:
+        return Icons.work;
+      case FolderIcon.person:
+        return Icons.person;
+      case FolderIcon.home:
+        return Icons.home;
+      case FolderIcon.school:
+        return Icons.school;
+      case FolderIcon.favorite:
+        return Icons.favorite;
+      case FolderIcon.star:
+        return Icons.star;
+      case FolderIcon.settings:
+        return Icons.settings;
+      case FolderIcon.document:
+        return Icons.description;
+      case FolderIcon.note:
+        return Icons.note;
+    }
+  }
+}
+
 Map<String, IconData> iconMap = {
   'folder': Icons.folder,
   'work': Icons.work,
@@ -17,25 +59,12 @@ Map<String, IconData> iconMap = {
   'note': Icons.note,
 };
 
-Map<Icon, String> reverseIconMap = {
-  const Icon(Icons.folder): 'folder',
-  const Icon(Icons.work): 'work',
-  const Icon(Icons.person): 'person',
-  const Icon(Icons.home): 'home',
-  const Icon(Icons.school): 'school',
-  const Icon(Icons.favorite): 'favorite',
-  const Icon(Icons.star): 'star',
-  const Icon(Icons.settings): 'settings',
-  const Icon(Icons.note): 'note',
-  const Icon(Icons.description): 'document',
-};
-
 class FolderModel {
   final String? id;
   final String name;
   final String description;
   final String color;
-  final Icon icon;
+  final String iconKey;
   final int documentsCount;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -48,7 +77,7 @@ class FolderModel {
     required this.name,
     this.description = '',
     this.color = '#2196F3',
-    this.icon = const Icon(Icons.folder),
+    this.iconKey = 'folder',
     this.documentsCount = 0,
     required this.createdAt,
     required this.updatedAt,
@@ -57,11 +86,14 @@ class FolderModel {
     // this.documents = const [],
   });
 
+  // Getter to get the actual Icon from iconKey
+  Icon get icon => Icon(iconMap[iconKey] ?? Icons.folder);
+
   factory FolderModel.createNew({
     required String name,
     String? description,
     String? color,
-    Icon? icon,
+    String? iconKey,
     int documentsCount = 0,
     bool isDefault = false,
     int sortOrder = 0,
@@ -72,7 +104,7 @@ class FolderModel {
       name: name,
       description: description ?? '',
       color: color ?? '#2196F3',
-      icon: icon ?? const Icon(Icons.folder),
+      iconKey: iconKey ?? 'folder',
       documentsCount: documentsCount,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
@@ -88,7 +120,7 @@ class FolderModel {
       name: data['name'] ?? '', //
       description: data['description'] ?? '', //
       color: data['color'] ?? '#2196F3', //
-      icon: Icon(iconMap[data['icon'] ?? 'folder']), //
+      iconKey: data['icon'] ?? 'folder', //
       documentsCount: data['documentsCount'] ?? 0, //
       createdAt:
           (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(), //
@@ -105,14 +137,13 @@ class FolderModel {
 
   Map<String, dynamic> toFirestore() {
     //  factory FolderModel.toFirestore(FolderModel folder) {
-    print(icon);
-    print(reverseIconMap[icon]);
+    print('Saving iconKey: $iconKey');
     return {
       'id': id ?? const Uuid().v4(),
       'name': name,
       'description': description,
       'color': color,
-      'icon': reverseIconMap[icon],
+      'icon': iconKey,
       'documentsCount': documentsCount,
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
@@ -127,7 +158,7 @@ class FolderModel {
     String? name,
     String? description,
     String? color,
-    Icon? icon,
+    String? iconKey,
     int? documentsCount,
     bool? isDefault,
     int? sortOrder,
@@ -141,7 +172,7 @@ class FolderModel {
       name: name ?? this.name,
       description: description ?? this.description,
       color: color ?? this.color,
-      icon: icon ?? this.icon,
+      iconKey: iconKey ?? this.iconKey,
       documentsCount: documentsCount ?? this.documentsCount,
       createdAt: createdAt ?? DateTime.now(),
       updatedAt: DateTime.now(),
@@ -160,7 +191,7 @@ class FolderModel {
         name: 'General',
         description: 'General documents',
         color: '#2196F3',
-        icon: Icon(iconMap['folder']),
+        iconKey: 'folder',
         createdAt: now,
         updatedAt: now,
         // isDefault: true,
@@ -171,7 +202,7 @@ class FolderModel {
         name: 'Work',
         description: 'Work-related documents',
         color: '#FF5722',
-        icon: Icon(iconMap['work']),
+        iconKey: 'work',
         createdAt: now,
         updatedAt: now,
         // isDefault: true,
@@ -182,7 +213,7 @@ class FolderModel {
         name: 'Personal',
         description: 'Personal documents',
         color: '#4CAF50',
-        icon: Icon(iconMap['favorite']),
+        iconKey: 'favorite',
         createdAt: now,
         updatedAt: now,
         // isDefault: true,

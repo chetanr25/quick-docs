@@ -45,6 +45,8 @@ class FirebaseConstants {
   static final firebaseUserDoc = FirebaseFirestore.instance
       .collection(AppConstants.usersCollection)
       .doc(email);
+
+  // Legacy cached firestore getter (kept for backward compatibility)
   static final Future<Map<String, dynamic>> firestore =
       firebaseUserDoc.get().then((doc) {
     if (doc.exists) {
@@ -53,4 +55,31 @@ class FirebaseConstants {
       throw Exception('User not found');
     }
   });
+
+  /// Fetches fresh user data from server, bypassing cache
+  static Future<Map<String, dynamic>> getFreshUserData() async {
+    final doc = await firebaseUserDoc.get(
+      const GetOptions(source: Source.server),
+    );
+
+    if (doc.exists) {
+      return doc.data() ?? {};
+    } else {
+      throw Exception('User not found');
+    }
+  }
+
+  /// Fetches user data with configurable source (cache, server, or default)
+  static Future<Map<String, dynamic>> getUserData(
+      {Source source = Source.serverAndCache}) async {
+    final doc = await firebaseUserDoc.get(
+      GetOptions(source: source),
+    );
+
+    if (doc.exists) {
+      return doc.data() ?? {};
+    } else {
+      throw Exception('User not found');
+    }
+  }
 }

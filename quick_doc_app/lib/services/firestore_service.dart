@@ -12,9 +12,7 @@ class FirestoreService {
   }
 
   static void deleteFolder(FolderModel folder) {
-    print('Deleting folder: ${folder.name}');
     Map<String, dynamic> folderData = folder.toFirestore();
-    print(folderData);
     FirebaseConstants.firebaseUserDoc.update({
       'folders': FieldValue.arrayRemove([folderData]),
     });

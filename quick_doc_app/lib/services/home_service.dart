@@ -3,33 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_docs/screens/auth_screen.dart';
 import 'package:quick_docs/services/firestore_service.dart';
+import 'package:quick_docs/services/api_service.dart';
 import '../models/folder_model.dart';
 import '../core/constants.dart';
 import '../utils/snackbar_util.dart';
+import '../core/exceptions.dart';
 
 class HomeService {
   static final HomeService _instance = HomeService._internal();
   factory HomeService() => _instance;
   HomeService._internal();
 
+  final ApiService _apiService = ApiService();
+
   Future<bool> confirmFolderDeletion(
       BuildContext context, FolderModel folder) async {
-    // try {
     final data = await FirebaseConstants.firestore;
     final allDocument = data['documents'];
     final documents = data['documents'].where((doc) {
       return doc['folderId'] == folder.id;
     }).toList();
-    print(documents);
 
     if (documents.isEmpty) {
-      print('hehee');
       final confirm = await HomeService().deleteFolder(context, folder);
       FirestoreService.deleteFolder(folder);
       return confirm;
     }
-    // List<String> fileNames = documents.map((doc) => doc['filename']).toList();
-    // print(fileNames);
 
     bool? result = await showDialog<bool>(
       context: context,
@@ -91,22 +90,34 @@ class HomeService {
     );
 
     if (result == true) {
-      // Remove documents from allDocument array
-      allDocument.removeWhere((doc) => doc['folderId'] == folder.id);
-      await FirebaseConstants.firebaseUserDoc.update({
-        'documents': allDocument,
-      });
-      FirestoreService.deleteFolder(folder);
-      // for (final doc in documents) {
-      //   // await FirebaseConstants.firebaseUserDoc
-      // }
+      try {
+        final fileIds =
+            documents.map<String>((doc) => doc['fileId'] as String).toList();
+
+        if (fileIds.isNotEmpty) {
+          await _apiService.deleteMultipleFiles(fileIds);
+        }
+
+        allDocument.removeWhere((doc) => doc['folderId'] == folder.id);
+
+        // _apiService.deleteFile(folder.id);
+
+        await FirebaseConstants.firebaseUserDoc.update({
+          'documents': allDocument,
+        });
+
+        FirestoreService.deleteFolder(folder);
+      } catch (e) {
+        print('Error deleting files from storage: $e');
+        allDocument.removeWhere((doc) => doc['folderId'] == folder.id);
+        await FirebaseConstants.firebaseUserDoc.update({
+          'documents': allDocument,
+        });
+        FirestoreService.deleteFolder(folder);
+      }
     }
 
     return result ?? false;
-    // } catch (e) {
-    //   print('Error checking folder contents: $e');
-    //   return false;
-    // }
   }
 
   /// Handles user sign out process
@@ -253,6 +264,50 @@ class HomeService {
       });
     } catch (e) {
       throw Exception('Failed to delete folder from Firestore: $e');
+    }
+  }
+
+  /// Deletes a single document from both storage and Firestore
+  Future<bool> deleteDocument(BuildContext context, dynamic document) async {
+    try {
+      // First delete from storage database
+      await _apiService.deleteFile(document.fileId);
+
+      // Then remove from Firestore
+      final data = await FirebaseConstants.firestore;
+      final allDocuments = List<Map<String, dynamic>>.from(data['documents']);
+      allDocuments.removeWhere((doc) => doc['fileId'] == document.fileId);
+
+      await FirebaseConstants.firebaseUserDoc.update({
+        'documents': allDocuments,
+      });
+
+      if (context.mounted) {
+        SnackBarUtil.showSuccessSnackBar(
+          context: context,
+          message: 'Document deleted successfully',
+        );
+      }
+
+      return true;
+    } catch (e) {
+      if (context.mounted) {
+        String errorMessage = 'Error deleting document';
+        if (e is NetworkException) {
+          errorMessage =
+              'No internet connection - unable to delete file from storage';
+        } else if (e is FileUploadException) {
+          errorMessage = e.message;
+        } else {
+          errorMessage = 'Unexpected error: ${e.toString()}';
+        }
+
+        SnackBarUtil.showErrorSnackBar(
+          context: context,
+          message: errorMessage,
+        );
+      }
+      return false;
     }
   }
 
@@ -656,52 +711,54 @@ class HomeService {
 
   /// Builds empty state widget for when no folders are available
   Widget _buildEmptyState(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context)
-                  .colorScheme
-                  .surfaceContainerHighest
-                  .withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(20),
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .colorScheme
+                    .surfaceContainerHighest
+                    .withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(
+                Icons.folder_open_rounded,
+                size: 48,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.5),
+              ),
             ),
-            child: Icon(
-              Icons.folder_open_rounded,
-              size: 48,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.5),
+            const SizedBox(height: 24),
+            Text(
+              'No folders available',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.7),
+                  ),
             ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'No folders available',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.7),
-                ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Create a folder first to organize your documents',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.5),
-                ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              'Create a folder first to organize your documents',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.5),
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -749,6 +806,8 @@ class _CreateFolderDialogState extends State<_CreateFolderDialog> {
       ),
       content: TextField(
         controller: _controller,
+        keyboardType: TextInputType.text,
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
           hintText: 'Enter folder name',
           border: OutlineInputBorder(

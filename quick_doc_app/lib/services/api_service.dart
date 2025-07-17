@@ -14,6 +14,52 @@ class ApiService {
   final String _baseUrl = AppConstants.baseUrl;
   final Duration _timeout = AppConstants.apiTimeout;
 
+  /// Deletes a file from the storage database
+  Future<bool> deleteFile(String fileId) async {
+    try {
+      final uri = Uri.parse('$_baseUrl/api/v1/files/delete/$fileId');
+
+      final response = await http.delete(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      ).timeout(_timeout);
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return true;
+        // final errorData = json.decode(response.body);
+        // throw FileUploadException(errorData['message'] ??
+        //     'Delete failed with status ${response.statusCode}');
+      }
+    } on SocketException {
+      throw NetworkException(AppConstants.noInternetMessage);
+    } on FileUploadException {
+      rethrow;
+    } catch (e) {
+      throw FileUploadException(
+          'Unexpected error deleting file: ${e.toString()}');
+    }
+  }
+
+  /// Deletes multiple files from the storage database
+  Future<bool> deleteMultipleFiles(List<String> fileIds) async {
+    try {
+      // Delete files one by one
+      for (String fileId in fileIds) {
+        print('Deleting file with ID: $fileId');
+        await deleteFile(fileId);
+      }
+      return true;
+    } catch (e) {
+      // If any file deletion fails, throw the error
+      rethrow;
+    }
+  }
+
   void deleteFileFromDB() {}
 
   Future<DocumentModel> uploadAndProcessFile({
