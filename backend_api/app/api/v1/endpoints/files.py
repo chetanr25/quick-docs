@@ -82,7 +82,7 @@ async def upload_file_sync(
         logger.error(f"Sync upload failed: {e}")
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
-@router.delete("/file/{file_id}")
+@router.delete("/delete/{file_id}")
 async def delete_file(file_id: str):
     """
     Delete a file from Azure Storage
