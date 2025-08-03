@@ -1198,6 +1198,8 @@ PODS:
     - Firebase/Firestore (= 11.15.0)
     - firebase_core
     - Flutter
+  - device_info_plus (0.0.1):
+    - Flutter
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -1429,11 +1431,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - pdf_text (0.0.1):
-    - Flutter
-  - pdf_viewer_plugin (0.0.1):
-    - Flutter
-  - permission_handler_apple (9.1.1):
+  - permission_handler_apple (9.3.0):
     - Flutter
   - RecaptchaInterop (101.0.0)
   - SDWebImage (5.21.1):
@@ -1453,6 +1451,7 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -1461,8 +1460,6 @@ DEPENDENCIES:
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - open_file_ios (from `.symlinks/plugins/open_file_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-  - pdf_text (from `.symlinks/plugins/pdf_text/ios`)
-  - pdf_viewer_plugin (from `.symlinks/plugins/pdf_viewer_plugin/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
@@ -1499,6 +1496,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_auth:
@@ -1515,10 +1514,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/open_file_ios/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
-  pdf_text:
-    :path: ".symlinks/plugins/pdf_text/ios"
-  pdf_viewer_plugin:
-    :path: ".symlinks/plugins/pdf_viewer_plugin/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
@@ -1534,6 +1529,7 @@ SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
   cloud_firestore: 06bb439e96941cdca91ac6bff6fa17d94952d4a8
+  device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
@@ -1561,15 +1557,13 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   open_file_ios: 461db5853723763573e140de3193656f91990d9e
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  pdf_text: 850e21d1a62672674099a07818c95a3f55030c81
-  pdf_viewer_plugin: 45fc2233c590780ca0ca623a1f575e4bd0a72b3a
-  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
   SDWebImage: f29024626962457f3470184232766516dee8dfea
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
-  syncfusion_flutter_pdfviewer: bb9998884b864cfedf72628df3503bdf57e397c0
+  syncfusion_flutter_pdfviewer: cfcf23c03816192575902e615fa50adc9f95b724
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
 PODFILE CHECKSUM: 53a6aebc29ccee84c41f92f409fc20cd4ca011f1

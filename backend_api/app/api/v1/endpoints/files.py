@@ -98,3 +98,35 @@ async def delete_file(file_id: str):
     except Exception as e:
         logger.error(f"Delete failed: {e}")
         raise HTTPException(status_code=500, detail=f"Delete failed: {str(e)}")
+
+@router.get("/storage-health")
+async def storage_health_check():
+    """
+    Check Azure Storage connectivity and configuration
+    """
+    try:
+        health_info = {
+            "azure_storage_account_url": bool(settings.AZURE_STORAGE_ACCOUNT_URL),
+            "azure_storage_account_url_value": settings.AZURE_STORAGE_ACCOUNT_URL if settings.AZURE_STORAGE_ACCOUNT_URL else "NOT SET",
+            "azure_container_name": settings.AZURE_STORAGE_CONTAINER_NAME,
+            "blob_service_client_initialized": storage_service.blob_service_client is not None,
+        }
+        
+        # Test connectivity
+        if storage_service.blob_service_client:
+            try:
+                # Test with a simple account info call instead of listing containers
+                account_info = storage_service.blob_service_client.get_account_information()
+                health_info["connectivity_test"] = "SUCCESS"
+                health_info["account_kind"] = account_info.get('account_kind', 'Unknown')
+            except Exception as conn_error:
+                health_info["connectivity_test"] = f"FAILED: {str(conn_error)}"
+                health_info["account_kind"] = "Unknown"
+        else:
+            health_info["connectivity_test"] = "FAILED: Blob service client not initialized"
+        
+        return health_info
+        
+    except Exception as e:
+        logger.error(f"Storage health check failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Health check failed: {str(e)}")

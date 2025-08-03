@@ -537,6 +537,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildActionButtons(DocumentModel document, int index) {
     return Row(
       mainAxisSize: MainAxisSize.min,
