@@ -16,14 +16,34 @@ class AzureStorageService:
     
     def __init__(self):
         try:
+            # Check if we have the required environment variables
+            if not settings.AZURE_STORAGE_ACCOUNT_URL:
+                logger.error("AZURE_STORAGE_ACCOUNT_URL not set in environment variables")
+                raise Exception("Azure Storage Account URL not configured")
+            
+            # Use DefaultAzureCredential for authentication
             default_credential = DefaultAzureCredential()
-            self.blob_service_client = BlobServiceClient(settings.AZURE_STORAGE_ACCOUNT_URL,credential=default_credential)
+            self.blob_service_client = BlobServiceClient(
+                account_url=settings.AZURE_STORAGE_ACCOUNT_URL,
+                credential=default_credential
+            )
+            
+            # Test the connection by getting account info
+            try:
+                # Simple connectivity test - get account info
+                account_info = self.blob_service_client.get_account_information()
+                logger.info("Successfully authenticated with Azure Storage")
+                logger.info(f"Storage account type: {account_info.get('account_kind', 'Unknown')}")
+            except Exception as auth_error:
+                logger.error(f"Azure Storage authentication failed: {auth_error}")
+                raise
             
             self._ensure_container_exists()
         except Exception as e:
             logger.error(f"Failed to initialize Azure Storage Service: {e}")
-            logger.warning("Falling back to mock storage for development.")
-            self.blob_service_client = None
+            logger.error("This will cause file uploads to fail in production!")
+            # Don't fall back to mock in production - fail fast
+            raise StorageException(f"Azure Storage initialization failed: {str(e)}")
     
     def _ensure_container_exists(self):
         """Ensure the container exists"""
@@ -34,7 +54,9 @@ class AzureStorageService:
             container_client = self.blob_service_client.get_container_client(settings.AZURE_STORAGE_CONTAINER_NAME)
             if not container_client.exists():
                 container_client.create_container()
-                logger.info(f"Created container: {self.container_name}")
+                logger.info(f"Created container: {settings.AZURE_STORAGE_CONTAINER_NAME}")
+            else:
+                logger.info(f"Container {settings.AZURE_STORAGE_CONTAINER_NAME} already exists")
         except Exception as e:
             logger.error(f"Failed to ensure container exists: {e}")
             raise StorageException(f"Container setup failed: {str(e)}")
@@ -46,7 +68,6 @@ class AzureStorageService:
         content_type: str,
         email: Optional[str] = None
     ) -> Tuple[str, str]:
-        # return "",""
         """
         Upload file to Azure Blob Storage
         
@@ -54,6 +75,7 @@ class AzureStorageService:
             file_content: File content as bytes
             filename: Original filename
             content_type: MIME type of the file
+            email: Optional email for file naming
         
         Returns:
             Tuple of (blob_name, blob_url)
@@ -63,9 +85,7 @@ class AzureStorageService:
             blob_name = f"{email}_{uuid.uuid4()}.{file_extension}" if file_extension else str(uuid.uuid4())
             
             if not self.blob_service_client:
-                blob_url = settings.AZURE_STORAGE_ACCOUNT_URL + f"/{settings.AZURE_STORAGE_CONTAINER_NAME}/{blob_name}"
-                logger.info(f"Mock upload: {blob_name}")
-                return blob_name, blob_url
+                raise StorageException("Azure Storage service not initialized")
             
             blob_client = self.blob_service_client.get_blob_client(
                 container=settings.AZURE_STORAGE_CONTAINER_NAME, 
@@ -74,6 +94,7 @@ class AzureStorageService:
             
             content_settings = ContentSettings(content_type=content_type)
             
+            # Upload the blob
             blob_client.upload_blob(
                 file_content, 
                 overwrite=True,
@@ -81,12 +102,11 @@ class AzureStorageService:
             )
             
             blob_url = blob_client.url
-            logger.debug(blob_url)
-            logger.info(f"Successfully uploaded file: {blob_name}")
+            logger.info(f"Successfully uploaded file: {blob_name} (size: {len(file_content)} bytes)")
             return blob_name, blob_url
             
         except Exception as e:
-            logger.error(f"Failed to upload file: {e}")
+            logger.error(f"Failed to upload file '{filename}': {e}")
             raise StorageException(f"File upload failed: {str(e)}")
     
     async def delete_file(self, blob_name: str) -> bool:

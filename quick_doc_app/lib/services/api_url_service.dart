@@ -57,7 +57,8 @@ class ApiUrlService {
   static Future<String> _getInitialUrl() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final cachedUrl = prefs.getString(_prefsKey);
+      final cachedUrl = "http://169.254.162.122:8000";
+      // prefs.getString(_prefsKey);
 
       if (cachedUrl != null && cachedUrl.isNotEmpty) {
         print('📱 Using cached URL from SharedPreferences: $cachedUrl');

@@ -27,28 +27,30 @@ class PdfViewer extends StatelessWidget {
       appBar: AppBar(
         title: Text(fileName),
         actions: [
-          if (Platform.isAndroid)
-            IconButton(
-              onPressed: () async {
-                try {
-                  final result = await OpenFile.open(path);
-                  // print(result.type);
-                  if (result.type != ResultType.done) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Could not open file')),
-                    );
-                  }
-                } catch (e) {
-                  final url = 'file://$path';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    throw 'Could not launch $url';
-                  }
+          // if (Platform.isAndroid)
+          IconButton(
+            onPressed: () async {
+              try {
+                launch(path);
+                return;
+                final result = await OpenFile.open(path);
+                // print(result.type);
+                if (result.type != ResultType.done) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Could not open file')),
+                  );
                 }
-              },
-              icon: const Icon(Icons.open_in_browser),
-            ),
+              } catch (e) {
+                // final url = 'file://$path';
+                if (await canLaunch(path)) {
+                  await launch(path);
+                } else {
+                  throw 'Could not launch $path';
+                }
+              }
+            },
+            icon: const Icon(Icons.open_in_browser),
+          ),
           if (Platform.isIOS)
             IconButton(
               onPressed: () async {
