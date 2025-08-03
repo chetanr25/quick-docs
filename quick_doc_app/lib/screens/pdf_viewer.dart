@@ -33,13 +33,13 @@ class PdfViewer extends StatelessWidget {
               try {
                 launch(path);
                 return;
-                final result = await OpenFile.open(path);
-                // print(result.type);
-                if (result.type != ResultType.done) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Could not open file')),
-                  );
-                }
+                // final result = await OpenFile.open(path);
+                // // print(result.type);
+                // if (result.type != ResultType.done) {
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     const SnackBar(content: Text('Could not open file')),
+                //   );
+                // }
               } catch (e) {
                 // final url = 'file://$path';
                 if (await canLaunch(path)) {

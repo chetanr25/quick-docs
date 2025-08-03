@@ -57,15 +57,14 @@ class ApiUrlService {
   static Future<String> _getInitialUrl() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final cachedUrl = "http://169.254.162.122:8000";
-      // prefs.getString(_prefsKey);
+      final cachedUrl =
+          prefs.getString(_prefsKey); // "http://169.254.162.122:8000";
 
       if (cachedUrl != null && cachedUrl.isNotEmpty) {
         print('📱 Using cached URL from SharedPreferences: $cachedUrl');
         return cachedUrl;
       }
 
-      // Fallback to .env
       final envUrl = dotenv.env['API_BASE_URL'] ?? 'http://192.168.0.130:8000';
       print('📄 Using URL from .env: $envUrl');
       return envUrl;
