@@ -6,7 +6,7 @@ from typing import List, Optional
 from datetime import datetime
 
 class FileUploadResponse(BaseModel):
-    """Response model for file upl§oad"""
+    """Response model for file upload"""
     success: bool
     message: str
     file_url: Optional[str] = None
