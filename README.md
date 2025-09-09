@@ -1,217 +1,184 @@
-# Quick Docs
 
-Quick Docs is a modern document management and text extraction application built with Flutter and FastAPI, featuring cloud storage integration with Azure Blob Storage and Firebase.
+# Quick Docs — Intelligent Document Manager
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-<!-- - [Getting Started](#getting-started) -->
-  <!-- - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Configuration](#configuration) -->
-<!-- - [Backend Setup](#backend-setup)
-- [App Setup](#frontend-setup)
-- [Project Structure](#project-structure)
-- [Authentication](#authentication)
-- [Storage](#storage) -->
-<!-- - [API Documentation](#api-documentation) -->
-<!-- - [Development Guide](#development-guide) -->
-<!-- - [Deployment](#deployment) -->
-- [Contributing](#contributing)
-- [License](#license)
+Quick Docs is a cross-platform **document manager** that helps you **organize, search, and instantly access** files across devices.  
+Whether it’s PDFs, Word docs, or text files. Quick Docs makes them **searchable**, **synced**, and **accessible anytime**, **anywhere**.  
 
-## Overview
+Unlike traditional apps that only search by filename, **Quick Docs** goes deeper. It **extracts text, tokenizes content, and powers a “Magic Search”** that can find any document by just a hint. Forgot the file name? No problem. Quick Docs will map the word, phrase, or token you remember and instantly retrieve the right document.  
 
-Quick Docs is a comprehensive document management system that allows users to upload, process, and organize their documents efficiently. It features text extraction, document organization with folders, and secure cloud storage integration.
+With **cloud sync, realtime updates, and offline file support**, Quick Docs bridges the gap between **convenience** and **reliability**. From lecture notes to contracts to casual WhatsApp PDFs, your documents are always at your fingertips.  
 
-## Features
+---
 
-<!-- ### Authentication & User Management
-- 🔐 Email/Password authentication
-- 👤 User profile management
-- 🔄 Automatic session management
-- 📊 User storage analytics -->
+## 📑 Table of Contents
+- [Introduction](#-introduction)
+- [What it Solves](#-what-it-solves)
+- [Core Features](#-core-features)
+- [Technical Overview](#-technical-overview)
+- [Supported Files & Limits](#-supported-files--limits)
+- [Platform Support](#-platform-support)
+- [Security & Privacy](#-security--privacy)
+- [Performance & Reliability](#-performance--reliability)
+- [Download & Demo](#-download--demo)
+- [Tech Stack](#-tech-stack)
+- [License](#-license)
 
-### Document Management
-- 📁 Folder organization
-- 📄 Document upload and processing
-- 🔍 Full-text search capability
-- 📱 Mobile-friendly interface
-- 📂 Hierarchical folder structure
-- 🏷️ Document tagging and categorization
+---
 
-### File Processing
-- 📝 Text extraction from multiple file formats
-- 💾 Supported formats: PDF, TXT, DOCX, DOC
-- 🔄 Background processing for large files
-- 📊 Document statistics and analysis
+## Introduction
 
-### Storage & Security
-- ☁️ Azure Blob Storage integration
-- 🔒 Secure file storage
-- 🚀 Firebase integration
-- 💽 Local caching for better performance
+In today’s world, documents are everywhere lecture notes, work reports, bills, e-books, and random PDFs sent over WhatsApp. The real challenge? **Finding them when you actually need them.**  
 
-### User Interface
-- 🌙 Dark mode support
-- 📱 Responsive design
-- 🎨 Modern Material Design
-- ⚡ Fast and intuitive navigation
+That’s where **Quick Docs** comes in.  
+Our app goes beyond simple filename-based search. With **Magic Search**, you don’t need to remember the exact file name or location. Just type a hint a phrase, a word, even a vague memory and Quick Docs will instantly scan through your documents, map tokens intelligently, and bring up the file you’re looking for. ⚡  
 
-## Tech Stack
+- No more digging through folders.  
+- No more scrolling endlessly in “Downloads” or “WhatsApp Documents.”  
+- No more “I know I had that PDF somewhere…” moments.  
 
-### App
-- Flutter SDK
-- Firebase Auth
-- Cloud Firestore
-- Azure Storage SDK
-- Material Design
+Even if you’ve just downloaded a PDF from the web, or someone forwarded you a document on WhatsApp, Quick Docs has your back. With **offline functionality**, it indexes local storage and makes files searchable instantly — path, folder, or filename don’t matter anymore.  
 
-### Backend (FastAPI)
-- FastAPI framework
-- Azure Blob Storage
-- Python 3.8+
+✨ Whether you’re a student, a professional, or just someone tired of losing files in the digital mess, Quick Docs makes finding and organizing documents effortless, fast, and reliable.  
 
-### Cloud Services
-- Azure Blob Storage
-- Firebase Authentication
-- Cloud Firestore
-- Firebase Cloud Storage
 
-## Getting Started(getting-started)
-<!-- 
-### Prerequisites
 
-1. Install the following tools:
-- Flutter SDK
-- Python 3.8+
-- Azure Account
-- Firebase Account
 
-2. Required Flutter packages:
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  firebase_core: ^3.0.0
-  cloud_firestore: ^5.0.0
-  firebase_storage: ^12.0.0
-  firebase_auth: ^5.0.0
-  http: ^1.4.0
-  file_picker: ^10.2.0
-  shared_preferences: ^2.2.3
-``` -->
 
-### Installation
+## 🔍 What it Solves
+- Scattered PDFs and notes across devices  
+- Slow, filename-only search that misses relevant content  
+- Manual copy/paste workflows to extract text  
+- Inconsistent organization without folders/tags  
+- Lack of real-time sync and offline access  
 
-1. Clone the repository:
-```bash
-git clone https://github.com/chetanr25/quick-docs.git
-cd quick-docs
-```
+Quick Docs centralizes documents, extracts content automatically, and makes them searchable and organized on mobile.
 
-2. Install backend dependencies:
-```bash
-cd backend_api
-pip install -r requirements.txt
-```
+---
 
-3. Install flutter dependencies:
-```bash
-cd quick_doc_app
-flutter pub get
-```
+## ⚡ Core Features
+- **Smart Search**
+  - Full-text search across content, filename, and tokens  
+  - Basic tokenization with optional NLP enhancements  
+- **Upload & Processing**
+  - Asynchronously upload and process in our backend servers powered by FastAPI
+  - Text extraction from PDF, DOCX, TXT  
+  - Instant metadata & token stats  
+- **Organization**
+  - Folders, tags, quick move between folders  
+  - Star/archive, document stats (views, access times)  
+- **Viewing & Access**
+  - In-app PDF viewer + external open support  
+  - Offline access for cached files  
+- **Realtime & Auth**
+  - Firebase Auth (email/password)  
+  - Firestore-backed realtime updates  
 
-### Configuration
+---
 
-1. Backend Environment Variables: 
-##### [View .env.example](backend_api/.env.example)
-```bash
-AZURE_STORAGE_ACCOUNT_URL=your_storage_account_url
-AZURE_STORAGE_CONTAINER_NAME=your_container_name
-ALLOWED_HOSTS=*
-```
+## 🛠 Technical Overview
 
-2. Frontend Environment Variables:
-Create a `.env` file in the `quick_doc_app` directory:
-```bash
-API_BASE_URL=http://localhost:8000
-```
+### Architecture
+- **Frontend (Flutter/Dart)**: UI, auth, client logic  
+- **Backend (FastAPI)**: uploads, text extraction, tokenization  
+- **Azure Blob Storage**: file storage  
+- **Firebase Firestore**: realtime metadata & search  
 
-## Project Structure
-The project follows a standard file structure for both app and backend components, ensuring maintainability and scalability:
+### Data Flow
+1. User selects file in app  
+2. App uploads to FastAPI (sync or async)  
+3. Backend stores file (Azure), extracts text, tokenizes  
+4. Backend returns structured result (file URL, tokens, metadata)  
+5. App saves result to Firestore → UI updates in realtime  
 
-### Frontend Structure
-```
-quick_doc_app/
-├── lib/
-│   ├── core/           # Core utilities and constants
-│   ├── models/         # Data models
-│   ├── screens/        # UI screens
-│   ├── services/       # Business logic and API services
-│   ├── theme/          # App theme and styling
-│   ├── utils/          # Utility functions
-│   └── widgets/        # Reusable widgets
-```
+### Backend Highlights
+- FastAPI + Uvicorn  
+- Azure Storage SDK (Blob)  
+- PyPDF2, python-docx  
+- Optional spaCy for NLP  
+- Health endpoint for liveness checks  
 
-### Backend Structure
-```
-backend_api/
-├── app/
-│   ├── api/           # API endpoints
-│   ├── core/          # Core configurations
-│   ├── models/        # Data models
-│   ├── services/      # Business logic
-│   └── utils/         # Utility functions
-```
+### Flutter app Highlights
+- Firebase Auth & Firestore integration  
+- In-app PDF viewer with caching mechanism
+- Robust upload client with validation & error handling  
+- API URL service with health-check & caching  
 
-## Development Guide
+### Cloud Components
+- **Azure App Service** - deploy backend  
+- **Azure Blob Storage** - persist files  
+- **Firebase** - auth + realtime data  
 
-### Running the Backend
-```bash
-cd backend_api
-uvicorn main:app --reload
-```
+---
 
-### Running the app (Recommended to use physical devices instead of emulators)
-```bash
-cd quick_doc_app
-flutter run
-```
+## 📂 Supported Files & Limits
+- **File types:** PDF, DOCX, TXT (legacy DOC partial support)  
+- **Async Upload:** Leveraging FastAPI, the app supports asynchronous upload and processing for better scalable and fast response solution
 
-<!-- ## API Documentation
+---
 
-Access the API documentation at `http://localhost:8000/docs` when running the backend server.
+## 📱 Platform Support
+- Android  
+- iOS  
+- Web (Flutter)  
+- Secure email/password authentication  
+- Real-time updates across devices  
 
-### Key Endpoints
-- `GET /api/v1/files/storage-health`: Check storage connectivity
-- `POST /api/v1/files/upload-sync`: Upload and process files
-- `DELETE /api/v1/files/delete/{file_id}`: Delete a file -->
+---
 
-<!-- 
-## Deployment
-### Backend Deployment
-1. Set up Azure App Service
-2. Configure environment variables
-3. Deploy using Azure DevOps or GitHub Actions
+## ⚙️ Configuration (High Level)
+- **Backend:** `.env` for Azure credentials and container settings  
+- **App:** `API_BASE_URL` via `.env` or SharedPreferences (auto health-checks + Firestore fallback)  
+- **Firebase:** Auth + Firestore configured per environment  
 
-### Frontend Deployment
-1. Build the Flutter web app:
-\`\`\`bash
-flutter build web
-\`\`\`
-2. Deploy to Firebase Hosting or your preferred hosting service -->
+---
 
-## Contributing
+## 🔒 Security & Privacy
+- Authentication via Firebase  
+- Scoped per-user data in Firestore (rules enforced)  
+- Files stored securely in Azure Blob Storage  
+- Secrets managed via environment variables (not bundled in app)  
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+---
 
-## License
+## ⚡ Performance & Reliability
+- Async processing for large files  
+- Cached API base URL with runtime health checks  
+- Stream-based Firestore UI updates  
+- Local caching for offline PDF viewing  
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
+
+## 📥 Download & Demo
+
+### Trade-offs: Old vs New Version
+
+| Version | Features | Trade-offs |
+|---------|----------|------------|
+| **Old APK** | ✅ Complete offline processing<br>✅ Access to local files (incl. WhatsApp, Downloads, etc.)<br>✅ Offline search support | ❌ Heavy app size (PDF parser bundled)<br>❌ UI/UX less refined |
+| **New APK (Current Code)** | ✅ Enhanced UI/UX<br>✅ Smart search with FastAPI backend<br>✅ Lighter and faster app<br>✅ Supports any document format (backend parsing) | ❌ No local file system processing (deprecated to reduce size & improve performance) |
+
+---
+
+### 📥 Old APK & Demo
+- **[Download Old APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)**  
+- **Cloud Sync Demo:** [Watch Video](https://github.com/user-attachments/assets/76dd9e4c-db7e-46fc-b85c-56ce02367332)  
+- **Local Storage Demo:** [Watch Video](https://github.com/user-attachments/assets/7ebe8756-3581-44f3-9663-284272d50485)  
+
+---
+
+### 🚀 New APK & Demo
+- **[Download New APK](#)**  
+- **[New Demo Video]()**  
+
+---
+
+## 🧑‍💻 Tech Stack
+- **Backend:** Python 3, FastAPI, Uvicorn, python-multipart, PyPDF2, python-docx, azure-storage-blob, azure-identity, python-dotenv  
+- **Frontend:** Flutter/Dart, Firebase Auth, Cloud Firestore, Syncfusion PDF Viewer, file_picker, shared_preferences, http
+- **Cloud:** Azure App Service, Azure Blob Storage, Firebase  
+
+---
+
+## 📜 License
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for details.
