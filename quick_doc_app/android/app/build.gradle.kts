@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.quick_docs"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.0.12433566"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
