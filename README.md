@@ -1,5 +1,5 @@
 
-# Quick Docs — Intelligent Document Manager
+# Quick Docs - Intelligent Document Manager
 
 Quick Docs is a cross-platform **document manager** that helps you **organize, search, and instantly access** files across devices.  
 Whether it’s PDFs, Word docs, or text files. Quick Docs makes them **searchable**, **synced**, and **accessible anytime**, **anywhere**.  
