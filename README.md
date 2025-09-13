@@ -11,13 +11,11 @@ With **cloud sync, realtime updates, and offline file support**, Quick Docs brid
 ---
 
 ## 📑 Table of Contents
-- [Introduction](#-introduction)
+- [Introduction](#introduction)
 - [What it Solves](#-what-it-solves)
 - [Core Features](#-core-features)
 - [Technical Overview](#-technical-overview)
 - [Supported Files & Limits](#-supported-files--limits)
-- [Platform Support](#-platform-support)
-- [Security & Privacy](#-security--privacy)
 - [Performance & Reliability](#-performance--reliability)
 - [Download & Demo](#-download--demo)
 - [Tech Stack](#-tech-stack)
@@ -116,15 +114,6 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## 📱 Platform Support
-- Android  
-- iOS  
-- Web (Flutter)  
-- Secure email/password authentication  
-- Real-time updates across devices  
-
----
-
 ## ⚡ Performance & Reliability
 - Async processing powered by FastAPI
 - Cached API base URL with runtime health checks  
@@ -152,8 +141,9 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 ---
 
 ### 🚀 New APK & Demo
-- **[Download New APK ](#)**  
-
+- **[Download Universal APK (38 MB)](https://github.com/chetanr25/quick-docs/raw/refs/heads/main/quick_doc_app/apk/app-release.apk.zip)**
+- **[Download armabi-v7a APK (13 MB)](https://github.com/chetanr25/quick-docs/raw/refs/heads/main/quick_doc_app/apk/app-armeabi-v7a-release.apk.zip)**
+- **[Download arm64 APK (14 MB)](https://github.com/chetanr25/quick-docs/raw/refs/heads/main/quick_doc_app/apk/app-arm64-v8a-release.apk.zip)**
 
 
 
@@ -162,7 +152,7 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ## 🧑‍💻 Tech Stack
 - **Backend:** Python 3, FastAPI, Uvicorn, python-multipart, PyPDF2, python-docx, azure-storage-blob, azure-identity, python-dotenv  
-- **Frontend:** Flutter/Dart, Firebase Auth, Cloud Firestore, Syncfusion PDF Viewer, file_picker, shared_preferences, http
+- **Frontend:** Flutter, Dart
 - **Cloud:** Azure App Service, Azure Blob Storage, Firebase  
 
 ---
