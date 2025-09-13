@@ -10,7 +10,7 @@ With **cloud sync, realtime updates, and offline file support**, Quick Docs brid
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 - [Introduction](#introduction)
 - [What it Solves](#-what-it-solves)
 - [Core Features](#-core-features)
@@ -37,9 +37,6 @@ Our app goes beyond simple filename-based search. With **Magic Search**, you don
 Even if you’ve just downloaded a PDF from the web, or someone forwarded you a document on WhatsApp, Quick Docs has your back. With **offline functionality**, it indexes local storage and makes files searchable instantly — path, folder, or filename don’t matter anymore.  
 
 ✨ Whether you’re a student, a professional, or just someone tired of losing files in the digital mess, Quick Docs makes finding and organizing documents effortless, fast, and reliable.  
-
-
-
 
 
 ## 🔍 What it Solves
