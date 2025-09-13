@@ -125,23 +125,8 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## ⚙️ Configuration (High Level)
-- **Backend:** `.env` for Azure credentials and container settings  
-- **App:** `API_BASE_URL` via `.env` or SharedPreferences (auto health-checks + Firestore fallback)  
-- **Firebase:** Auth + Firestore configured per environment  
-
----
-
-## 🔒 Security & Privacy
-- Authentication via Firebase  
-- Scoped per-user data in Firestore (rules enforced)  
-- Files stored securely in Azure Blob Storage  
-- Secrets managed via environment variables (not bundled in app)  
-
----
-
 ## ⚡ Performance & Reliability
-- Async processing for large files  
+- Async processing powered by FastAPI
 - Cached API base URL with runtime health checks  
 - Stream-based Firestore UI updates  
 - Local caching for offline PDF viewing  
@@ -160,15 +145,18 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 ---
 
 ### 📥 Old APK & Demo
-- **[Download Old APK](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)**  
+- **[Download Old APK (100+ MB))](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)**  
 - **Cloud Sync Demo:** [Watch Video](https://github.com/user-attachments/assets/76dd9e4c-db7e-46fc-b85c-56ce02367332)  
 - **Local Storage Demo:** [Watch Video](https://github.com/user-attachments/assets/7ebe8756-3581-44f3-9663-284272d50485)  
 
 ---
 
 ### 🚀 New APK & Demo
-- **[Download New APK](#)**  
-- **[New Demo Video]()**  
+- **[Download New APK ](#)**  
+
+
+
+
 
 ---
 
