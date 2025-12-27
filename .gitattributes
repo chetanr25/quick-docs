@@ -4,3 +4,4 @@ quick_doc_app/lib/screens/*.dart linguist-generated
 quick_doc_app/lib/theme/*.dart linguist-generated
 quick_doc_app/lib/utils/*.dart linguist-generated
 quick_doc_app/lib/widgets/*.dart linguist-generated
+quick_doc_app/lib/*.dart linguist-generated
