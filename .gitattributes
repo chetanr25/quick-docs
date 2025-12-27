@@ -5,3 +5,4 @@ quick_doc_app/lib/screens/** linguist-vendored
 quick_doc_app/lib/theme/** linguist-vendored
 quick_doc_app/lib/utils/** linguist-vendored
 quick_doc_app/lib/widgets/** linguist-vendored
+quick_doc_app/lib/services/** linguist-vendored
