@@ -12,11 +12,11 @@ With **cloud sync, realtime updates, and offline file support**, Quick Docs brid
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [What it Solves](#-what-it-solves)
+- [What it Solves](#what-it-solves)
 - [Core Features](#-core-features)
-- [Technical Overview](#-technical-overview)
-- [Supported Files & Limits](#-supported-files--limits)
-- [Performance & Reliability](#-performance--reliability)
+- [Technical Overview](#technical-overview)
+- [Supported Files & Limits](#supported-files--limits)
+- [Performance & Reliability](#performance--reliability)
 - [Download & Demo](#-download--demo)
 - [Tech Stack](#-tech-stack)
 - [License](#-license)
@@ -39,7 +39,7 @@ Even if you’ve just downloaded a PDF from the web, or someone forwarded you a 
 ✨ Whether you’re a student, a professional, or just someone tired of losing files in the digital mess, Quick Docs makes finding and organizing documents effortless, fast, and reliable.  
 
 
-## 🔍 What it Solves
+## What it Solves
 - Scattered PDFs and notes across devices  
 - Slow, filename-only search that misses relevant content  
 - Manual copy/paste workflows to extract text  
@@ -50,7 +50,7 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## ⚡ Core Features
+## Core Features
 - **Smart Search**
   - Full-text search across content, filename, and tokens  
   - Basic tokenization with optional NLP enhancements  
@@ -70,7 +70,7 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## 🛠 Technical Overview
+## Technical Overview
 
 ### Architecture
 - **Frontend (Flutter/Dart)**: UI, auth, client logic  
@@ -105,13 +105,13 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## 📂 Supported Files & Limits
+## Supported Files & Limits
 - **File types:** PDF, DOCX, TXT (legacy DOC partial support)  
 - **Async Upload:** Leveraging FastAPI, the app supports asynchronous upload and processing for better scalable and fast response solution
 
 ---
 
-## ⚡ Performance & Reliability
+## Performance & Reliability
 - Async processing powered by FastAPI
 - Cached API base URL with runtime health checks  
 - Stream-based Firestore UI updates  
@@ -119,7 +119,7 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## 📥 Download & Demo
+## Download & Demo
 
 ### Trade-offs: Old vs New Version
 
@@ -130,14 +130,14 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-### 📥 Old APK & Demo
+### Old APK & Demo
 - **[Download Old APK (100+ MB))](https://drive.usercontent.google.com/download?id=1-gzwuwJ09xD84Gc5SOsrQK5uaT5eNtc6&export=download&authuser=0)**  
 - **Cloud Sync Demo:** [Watch Video](https://github.com/user-attachments/assets/76dd9e4c-db7e-46fc-b85c-56ce02367332)  
 - **Local Storage Demo:** [Watch Video](https://github.com/user-attachments/assets/7ebe8756-3581-44f3-9663-284272d50485)  
 
 ---
 
-### 🚀 New APK & Demo
+### New APK & Demo
 - **[Download Universal APK (38 MB)](https://github.com/chetanr25/quick-docs/raw/refs/heads/main/quick_doc_app/apk/app-release.apk.zip)**
 - **[Download armabi-v7a APK (13 MB)](https://github.com/chetanr25/quick-docs/raw/refs/heads/main/quick_doc_app/apk/app-armeabi-v7a-release.apk.zip)**
 - **[Download arm64 APK (14 MB)](https://github.com/chetanr25/quick-docs/raw/refs/heads/main/quick_doc_app/apk/app-arm64-v8a-release.apk.zip)**
@@ -147,13 +147,13 @@ Quick Docs centralizes documents, extracts content automatically, and makes them
 
 ---
 
-## 🧑‍💻 Tech Stack
+## Tech Stack
 - **Backend:** Python 3, FastAPI, Uvicorn, python-multipart, PyPDF2, python-docx, azure-storage-blob, azure-identity, python-dotenv  
 - **Frontend:** Flutter, Dart
 - **Cloud:** Azure App Service, Azure Blob Storage, Firebase  
 
 ---
 
-## 📜 License
+## License
 This project is licensed under the **MIT License**.  
 See the [LICENSE](LICENSE) file for details.
