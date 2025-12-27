@@ -1,7 +1,10 @@
-quick_doc_app/lib/core/*.dart linguist-generated
-quick_doc_app/lib/models/*.dart linguist-generated
-quick_doc_app/lib/screens/*.dart linguist-generated
-quick_doc_app/lib/theme/*.dart linguist-generated
-quick_doc_app/lib/utils/*.dart linguist-generated
-quick_doc_app/lib/widgets/*.dart linguist-generated
-quick_doc_app/lib/*.dart linguist-generated
+# Ignore Dart code only in these folders
+quick_doc_app/lib/core/** linguist-vendored
+quick_doc_app/lib/models/** linguist-vendored
+quick_doc_app/lib/screens/** linguist-vendored
+quick_doc_app/lib/theme/** linguist-vendored
+quick_doc_app/lib/utils/** linguist-vendored
+quick_doc_app/lib/widgets/** linguist-vendored
+
+# Keep other Dart files counted
+*.dart linguist-detectable
