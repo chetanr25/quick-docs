@@ -18,7 +18,7 @@
 
 **Quick Docs** is a cross-platform intelligent document management system that revolutionizes how you organize, search, and access files across devices. Whether it's PDFs, Word documents, or text files, Quick Docs transforms them into **searchable**, **synced**, and **instantly accessible** resources.
 
-Unlike traditional file managers that rely solely on filename-based search, **Quick Docs** employs advanced text extraction, intelligent tokenization, and a powerful **Magic Search** engine. Simply type a hint—a phrase, word, or even a vague memory—and Quick Docs instantly scans through your documents, maps tokens intelligently, and retrieves the exact file you need.
+Unlike traditional file managers that rely solely on filename-based search, **Quick Docs** employs advanced text extraction, intelligent tokenization, and a powerful **Magic Search** engine. Simply type a hint—a phrase, word, or even a vague memory and Quick Docs instantly scans through your documents, maps tokens intelligently, and retrieves the exact file you need.
 
 With **cloud synchronization**, **real-time updates**, and **offline file support**, Quick Docs seamlessly bridges the gap between convenience and reliability. From lecture notes to contracts to casual WhatsApp PDFs, your documents are always at your fingertips.  
 
@@ -43,17 +43,17 @@ In today's digital world, documents are everywhere: lecture notes, work reports,
 
 That's where **Quick Docs** comes in.
 
-Our application goes beyond simple filename-based search. With **Magic Search**, you don't need to remember the exact file name or location. Just type a hint—a phrase, a word, even a vague memory—and Quick Docs will instantly scan through your documents, map tokens intelligently, and retrieve the file you're looking for. ⚡
+Our application goes beyond simple filename-based search. With **Magic Search**, you don't need to remember the exact file name or location. Just type a hint a phrase, a word, even a vague memory and Quick Docs will instantly scan through your documents, map tokens intelligently, and retrieve the file you're looking for. ⚡
 
 ### Key Benefits
 
-- ✅ **No more digging through folders** — Intelligent search finds files instantly
-- ✅ **No more endless scrolling** — Skip the "Downloads" or "WhatsApp Documents" chaos
-- ✅ **No more lost files** — Say goodbye to "I know I had that PDF somewhere…" moments
-- ✅ **Offline-first approach** — Indexes local storage and makes files searchable instantly
-- ✅ **Path-agnostic** — Folder structure and filename don't matter anymore
+- **No more digging through folders** - Intelligent search finds files instantly
+- **No more endless scrolling** - Skip the "Downloads" or "WhatsApp Documents" chaos
+- **No more lost files** - Say goodbye to "I know I had that PDF somewhere…" moments
+- **Offline-first approach** - Indexes local storage and makes files searchable instantly
+- **Path-agnostic** - Folder structure and filename don't matter anymore
 
-Whether you've just downloaded a PDF from the web, or someone forwarded you a document on WhatsApp, Quick Docs has your back. With **offline functionality**, it indexes local storage and makes files searchable instantly—path, folder, or filename don't matter anymore.
+Whether you've just downloaded a PDF from the web, or someone forwarded you a document on WhatsApp, Quick Docs has your back. With **offline functionality**, it indexes local storage and makes files searchable instantly path, folder, or filename don't matter anymore.
 
 ✨ Whether you're a student, a professional, or just someone tired of losing files in the digital mess, Quick Docs makes finding and organizing documents effortless, fast, and reliable.  
 
@@ -167,10 +167,10 @@ Quick Docs follows a modern, scalable architecture pattern:
 ## Supported Files & Limits
 
 ### Supported File Types
-- ✅ **PDF** - Full support with text extraction
-- ✅ **DOCX** - Microsoft Word documents
-- ✅ **TXT** - Plain text files
-- ⚠️ **DOC** - Legacy format (partial support)
+- **PDF** - Full support with text extraction
+- **DOCX** - Microsoft Word documents
+- **TXT** - Plain text files
+- **DOC** - Legacy format (partial support)
 
 ### Processing Capabilities
 - **Asynchronous Upload**: Leveraging FastAPI's async capabilities for scalable and fast processing
