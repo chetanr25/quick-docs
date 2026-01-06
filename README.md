@@ -18,7 +18,7 @@
 
 **Quick Docs** is a cross-platform intelligent document management system that revolutionizes how you organize, search, and access files across devices. Whether it's PDFs, Word documents, or text files, Quick Docs transforms them into **searchable**, **synced**, and **instantly accessible** resources.
 
-Unlike traditional file managers that rely solely on filename-based search, **Quick Docs** employs advanced text extraction, intelligent tokenization, and a powerful **Magic Search** engine. Simply type a hint—a phrase, word, or even a vague memory and Quick Docs instantly scans through your documents, maps tokens intelligently, and retrieves the exact file you need.
+Unlike traditional file managers that rely solely on filename-based search, **Quick Docs** employs advanced text extraction, intelligent tokenization, and a powerful **Magic Search** engine. Simply type a hint a phrase, word, or even a vague memory and Quick Docs instantly scans through your documents, maps tokens intelligently, and retrieves the exact file you need.
 
 With **cloud synchronization**, **real-time updates**, and **offline file support**, Quick Docs seamlessly bridges the gap between convenience and reliability. From lecture notes to contracts to casual WhatsApp PDFs, your documents are always at your fingertips.  
 
